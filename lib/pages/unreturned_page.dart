@@ -286,7 +286,7 @@ class _MyTransactionPageCategorizedTestState
                                                   'Due Date: ${formatDate(
                                                     DateTime.parse(transaction
                                                         .instrumentDateDue),
-                                                  )}/nPlease Contact ${transaction.instrumentphoneNumber}',
+                                                  )}\nPlease Contact ${transaction.instrumentphoneNumber}',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .titleSmall,
@@ -446,7 +446,7 @@ class _MyTransactionPageCategorizedTestState
                                                   'Due Date: ${formatDate(
                                                     DateTime.parse(transaction
                                                         .accesoriesDateDue),
-                                                  )}/nPlease Contact ${transaction.accesoriesphoneNumber}',
+                                                  )}\nPlease Contact ${transaction.accesoriesphoneNumber}',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .titleSmall,
