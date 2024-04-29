@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "813007988453",
+    "project_id": "koroauth",
+    "storage_bucket": "koroauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813007988453:android:6fabdc70760238d878960c",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8XSKNJO0nKTjF164dmvdIw2qxf_K2xb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

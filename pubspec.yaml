@@ -35,10 +35,32 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  google_sign_in: ^6.2.1
+  provider: ^6.1.2
+  cloud_firestore: ^4.15.8
+  intl: ^0.19.0
+  random_string: ^2.3.1
+  google_nav_bar: ^5.0.6
+  persistent_bottom_nav_bar: ^5.0.2
+  flutter_local_notifications: ^17.1.0
+  timezone: ^0.9.2
+  font_awesome_flutter: ^10.7.0
+  fluttertoast: ^8.2.5
+  uuid: ^3.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/propertytracker.png"
+  adaptive_icon_foreground: 'assets/images/app_logo.png'
+  adaptive_icon_background: '#ffeb3b'
     
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -64,6 +86,60 @@ flutter:
     - assets/images/KS.png
     - assets/images/padlock.png
     - assets/images/user.png
+    - assets/images/Google.png
+    - assets/images/propertytracker.png
+ #WARDROBE  
+    - assets/images/wardrobe/BEIGE-SKIRT.png 
+    - assets/images/wardrobe/BLACK-SKIRT.png 
+    - assets/images/wardrobe/BLUE-POLO-SHIRT.png 
+    - assets/images/wardrobe/BLUE-PONCHO.png 
+    - assets/images/wardrobe/BLUE-SHINY.png 
+    - assets/images/wardrobe/CITY-HALL-FEMALE.png 
+    - assets/images/wardrobe/CITY-HALL-JUMPER.png 
+    - assets/images/wardrobe/CITY-HALL-MALE.png 
+    - assets/images/wardrobe/FALALA.png 
+    - assets/images/wardrobe/FEMALE-GRAY-TROUSER.png 
+    - assets/images/wardrobe/MALACANANG-FEMALE.png 
+    - assets/images/wardrobe/MALE-GRAY-TROUSER.png 
+    - assets/images/wardrobe/NYOR.png 
+    - assets/images/wardrobe/PEACH-PANTS.png 
+    - assets/images/wardrobe/RED-PONCHO.png 
+    - assets/images/wardrobe/SHEMSHEM.png 
+    - assets/images/wardrobe/SHINY-PANTS.png 
+    - assets/images/wardrobe/SUBLIMATION_FEMALE.png 
+    - assets/images/wardrobe/SUBLIMATION-MALE.png 
+    - assets/images/wardrobe/TINKERBELT.png 
+    - assets/images/wardrobe/TRIBAL.png 
+    - assets/images/wardrobe/TWO-TONE.png 
+    - assets/images/wardrobe/WHITE-HOUSE-FEMALE.png 
+    - assets/images/wardrobe/WHITE-HOUSE.png 
+    - assets/images/wardrobe/WOW-SUIT.png
+    - assets/images/wardrobe/WOW-NINA.png 
+#ACCESORIES
+    - assets/images/accesories/Blue-Earrings.png
+    - assets/images/accesories/Choker.png
+    - assets/images/accesories/Egg-Earrings.png
+    - assets/images/accesories/Flower-Blue.png
+    - assets/images/accesories/Flower-Gray.png
+    - assets/images/accesories/Golden-Necklace.png
+    - assets/images/accesories/Grapes-Pearl-Earrings.png
+    - assets/images/accesories/Hairbun.png
+    - assets/images/accesories/Heavy-Gold-Earrings.png
+    - assets/images/accesories/Leaves-Earrings.png
+    - assets/images/accesories/Long-Shiny-Earrings.png
+    - assets/images/accesories/Ma_am-Aleli-Brooch.png
+    - assets/images/accesories/Pearl-Necklace.png
+    - assets/images/accesories/Pearl.png
+    - assets/images/accesories/Pearlsss.png
+    - assets/images/accesories/Red-Earrings.png
+    - assets/images/accesories/Silver-Bug-Earrings.png
+    - assets/images/accesories/Wow-Nina-Brooch.png
+#INSTRUMENTS
+    - assets/images/instruments/BLUE-SHAKER.png
+    - assets/images/instruments/DJEMBE.png
+    - assets/images/instruments/LAZER-MARACAS.png
+    - assets/images/instruments/PIANO.png
+    - assets/images/instruments/JBL-PARTYBOX-SPEAKER.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -77,10 +153,10 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-  - family: oten
+  - family: Poppins
     fonts:
-      - asset: assets/fonts/PoppinsBold-GdJA.ttf
-        weight: 400
+      - asset: assets/fonts/PoppinsMedium-1JPv.ttf
+        weight: 200
         
   #   - family: Trajan Pro
   #     fonts:
