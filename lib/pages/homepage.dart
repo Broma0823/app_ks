@@ -1,11 +1,14 @@
 import 'package:app/components/buttons/gridview_button_homepage.dart';
 import 'package:app/components/textfields/my_search_all_items.dart';
-import 'package:app/components/textfields/my_search_textfield.dart';
+import 'package:app/models/inventory/ksaccesories.dart';
+import 'package:app/models/inventory/ksinstrument.dart';
+import 'package:app/models/inventory/kswardrobe.dart';
 import 'package:app/pages/mysearchpage.dart';
 import 'package:app/test/databaseservice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -19,7 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final db = DatabaseService();
-  final SearchController = TextEditingController();
+  final searchControllerFocus = TextEditingController();
 
   String formatDate(DateTime date) {
     final DateFormat formatter = DateFormat('MMMM dd, yyyy hh:mm a');
@@ -30,11 +33,6 @@ class _HomePageState extends State<HomePage>
     FirebaseAuth.instance.signOut();
   }
 
-  void _onTapSearchField(
-      BuildContext context, TextEditingController searchController) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MySearchAllItemsPage()));
-  }
   //SEARCH ALGO
   //
 
@@ -90,18 +88,31 @@ class _HomePageState extends State<HomePage>
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'CHOOSE A CATEGORY',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            // Text(
+            //   'CHOOSE A CATEGORY',
+            //   style: Theme.of(context).textTheme.headlineMedium,
+            // ),
             MyTextField_SearchAll(
-              hintText: 'Search...',
+              hintText: 'Search',
               obscureText: false,
-              controller: SearchController,
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: ((context) => MySearchAllItemsPage()))),
+              controller: searchControllerFocus,
+              onTap: () {
+                final wardrobeProvider =
+                    Provider.of<KSWardrobe>(context, listen: false);
+                final accesoriesProvider =
+                    Provider.of<KSAccesories>(context, listen: false);
+                final instrumentProvider =
+                    Provider.of<KSInstrument>(context, listen: false);
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomePageSearch(
+                              wardrobeItems: wardrobeProvider.menu,
+                              accesoriesItems: accesoriesProvider.menu,
+                              instrumentItems: instrumentProvider.menu,
+                            )));
+              },
             ),
             const SizedBox(
               height: 20,

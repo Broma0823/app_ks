@@ -27,8 +27,6 @@ class _MyWardrobePageState extends State<MyWardrobePage>
   List<Wardrobe> searchResults = [];
   List<Wardrobe> wardrobeList = [];
 
-  //INTERPOLATION SEARCH ALGORITHM
-
   //KMP SEARCH ALGORITHM
   List<int> computeLPSArray(String pattern) {
     int length = 0;

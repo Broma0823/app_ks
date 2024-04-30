@@ -1,35 +1,35 @@
-import 'package:app/components/item_tile/wardrobe_item_tile.dart';
-import 'package:app/components/sliver_app_bar/wardrobe_sliver_app_bar.dart';
-import 'package:app/components/tab_bar/wardrobe_tab_bar.dart';
-import 'package:app/components/textfields/my_search_textfield.dart';
-import 'package:app/models/inventory/kswardrobe.dart';
+import 'package:app/components/textfields/my_appbar_search_textfield.dart';
+import 'package:app/models/item/accesorieslist.dart';
+import 'package:app/models/item/instrumentlist.dart';
 import 'package:app/models/item/wardrobelist.dart';
+import 'package:app/pages/second_page/accesories_borrow_return.dart';
+import 'package:app/pages/second_page/instrument_borrow_return.dart';
 import 'package:app/pages/second_page/wardrobe_borrow_return.dart';
-import 'package:app/pages/transactions/transaction_categorized.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class MySearchAllItemsPage extends StatefulWidget {
-  const MySearchAllItemsPage({super.key});
+class HomePageSearch extends StatefulWidget {
+  final List<Wardrobe> wardrobeItems;
+  final List<Accesories> accesoriesItems;
+  final List<Instrument> instrumentItems;
+
+  HomePageSearch({
+    required this.wardrobeItems,
+    required this.accesoriesItems,
+    required this.instrumentItems,
+  });
 
   @override
-  State<MySearchAllItemsPage> createState() => _MySearchAllItemsPageState();
+  State<HomePageSearch> createState() => _HomePageSearchState();
 }
 
-class _MySearchAllItemsPageState extends State<MySearchAllItemsPage>
-    with SingleTickerProviderStateMixin {
-  //Tab Controller
-  late TabController _tabController;
+class _HomePageSearchState extends State<HomePageSearch> {
+  TextEditingController _searchController = TextEditingController();
 
-  //Search Controller
-  TextEditingController searchController = TextEditingController();
+  List<dynamic> _searchResults = [];
 
-  List<Wardrobe> searchResults = [];
-  List<Wardrobe> wardrobeList = [];
+  List<dynamic> allItems = [];
 
-  //INTERPOLATION SEARCH ALGORITHM
-
-  //KMP SEARCH ALGORITHM
+  //KMP ALGO
   List<int> computeLPSArray(String pattern) {
     int length = 0;
     int i = 1;
@@ -80,161 +80,171 @@ class _MySearchAllItemsPageState extends State<MySearchAllItemsPage>
     return matches;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController =
-        TabController(length: WardrobeCategory.values.length, vsync: this);
-
-    super.initState();
-    // Initialize wardrobeList with your Wardrobe data
-    wardrobeList = KSWardrobe().generateWardrobeList();
-
-    searchController.addListener(onSearchChanged);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-    searchController.dispose();
-    super.dispose();
-  }
-
-  //On Seach Function
   void onSearchChanged() {
-    String searchQuery = searchController.text.toLowerCase();
+    String searchQuery = _searchController.text.toLowerCase();
 
     if (searchQuery.isEmpty) {
       setState(() {
-        searchResults.clear();
+        _searchResults.clear();
       });
     } else {
-      // Perform KMP search for each item in the wardrobeList.
-      // This will hold the indices of the items that match the search query.
       List<int> matchingIndices = [];
 
-      // Convert search query to lowercase for case-insensitive search.
-      for (int i = 0; i < wardrobeList.length; i++) {
-        String itemName = wardrobeList[i].wardrobeName.toLowerCase();
-        // Use the KMP algorithm to check for a match.
+      for (int i = 0; i < allItems.length; i++) {
+        // You need to determine how to get the name based on the item type
+        String itemName = getItemName(allItems[i]).toLowerCase();
         List<int> kmpResult = KMPSearch(itemName, searchQuery);
-        // If there are matches, add the index to matchingIndices.
         if (kmpResult.isNotEmpty) {
           matchingIndices.add(i);
         }
       }
 
-      // Update searchResults with the items that match the search query.
       setState(() {
-        searchResults =
-            matchingIndices.map((index) => wardrobeList[index]).toList();
+        _searchResults =
+            matchingIndices.map((index) => allItems[index]).toList();
       });
     }
   }
 
-  //filters the items in its desired cateogry
-  List<Wardrobe> _filterMenuByCategory(
-      WardrobeCategory category, List<Wardrobe> fullMenu) {
-    return fullMenu.where((wardrobe) => wardrobe.category == category).toList();
+  String getItemName(dynamic item) {
+    if (item is Wardrobe) {
+      return item.wardrobeName;
+    } else if (item is Accesories) {
+      return item.accesoriesName;
+    } else if (item is Instrument) {
+      return item.instrumentName;
+    } else {
+      return ''; // Or handle unknown item type
+    }
   }
 
-  List<Widget> getWardrobeInThisCategory(List<Wardrobe> fullMenu) {
-    return WardrobeCategory.values.map((category) {
-      List<Wardrobe> categoryMenu = searchResults.isNotEmpty
-          ? searchResults
-              .where((wardrobe) => wardrobe.category == category)
-              .toList()
-          : _filterMenuByCategory(category, fullMenu);
+  @override
+  void initState() {
+    super.initState();
+    // Combine all items into a single list
+    allItems = [
+      ...widget.wardrobeItems,
+      ...widget.accesoriesItems,
+      ...widget.instrumentItems
+    ];
 
-      categoryMenu.sort((a, b) => a.wardrobeName.compareTo(b.wardrobeName));
+    _searchController.addListener(onSearchChanged);
+  }
 
-      return searchResults.isEmpty && searchController.text.isNotEmpty
-          ? const Center(child: Text('No Item Found'))
-          : SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: GridView.builder(
-                itemCount: categoryMenu.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final wardrobe = categoryMenu[index];
-
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyWardrobeDescPage(
-                            wardrobe: wardrobe,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      color: Theme.of(context).cardTheme.color,
-                      // margin: EdgeInsets.all(4),
-                      // shape: RoundedRectangleBorder(),
-                      child: ListTile(
-                        title: MyWardrobeTile(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyWardrobeDescPage(
-                                wardrobe: wardrobe,
-                              ),
-                            ),
-                          ),
-                          wardrobe: wardrobe,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
-    }).toList();
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final allItems = [
+      ...widget.wardrobeItems,
+      ...widget.accesoriesItems,
+      ...widget.instrumentItems
+    ];
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          MySliverAppBar(
-            actions: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MyTransactionPageCategorized(),
-                ),
-              ),
-            ),
-            title: MyWardrobeTabBar(tabController: _tabController),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 100),
-                  child: MyTextField_Search(
-                    hintText: "Search...",
-                    obscureText: false,
-                    controller: searchController,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: MySearchFieldAppBar(
+          hintText: 'Search...',
+          obscureText: false,
+          controller: _searchController,
+          autofocus: true,
+        ),
+        backgroundColor:
+            Colors.transparent, // Optional: for a transparent AppBar
+        elevation: 0, // Optional: remove shadow
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: _searchController.text.isNotEmpty && _searchResults.isEmpty
+                ? Center(
+                    child: Text('No Item Found'),
+                  ) // This will display an empty container when the search field is empty
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Number of columns
+                    ),
+                    itemCount: _searchResults.length,
+                    itemBuilder: (context, index) {
+                      final item = _searchResults[index];
+                      return buildItemCard(
+                        item,
+                        context,
+                      );
+                    },
                   ),
-                ),
-              ],
-            ),
           ),
         ],
-        body: Expanded(
-          child: Consumer<KSWardrobe>(
-            builder: (context, kswardrobe, child) => TabBarView(
-              controller: _tabController,
-              children: getWardrobeInThisCategory(kswardrobe.menu),
-            ),
+      ),
+    );
+  }
+
+  Widget buildItemCard(dynamic item, BuildContext context) {
+    String name;
+    String description;
+    String imagePath;
+    VoidCallback onTap = () {};
+
+    if (item is Wardrobe) {
+      name = item.wardrobeName;
+      description = item.wardrobeDescription;
+      imagePath = item.wardrobeImagePath;
+      onTap = () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MyWardrobeDescPage(wardrobe: item)));
+      };
+    } else if (item is Accesories) {
+      name = item.accesoriesName;
+      description = item.accesoriesDescription;
+      imagePath = item.accesoriesImagePath;
+      onTap = () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MyAccesoriesDescPage(accesories: item)));
+      };
+    } else if (item is Instrument) {
+      name = item.instrumentName;
+      description = item.instrumentDescription;
+      imagePath = item.instrumentImagePath;
+      onTap = () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MyInstrumentDescPage(instrument: item)));
+      };
+    } else {
+      // Handle unknown item type
+      name = 'Unknown';
+      description = 'No description available';
+      imagePath = 'assets/images/placeholder.png';
+    }
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: Theme.of(context).cardTheme.color,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Text(name),
+            ],
           ),
         ),
       ),

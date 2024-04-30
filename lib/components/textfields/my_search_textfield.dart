@@ -4,12 +4,14 @@ class MyTextField_Search extends StatelessWidget {
   final controller;
   final String hintText;
   final bool obscureText;
+  final bool autofocus;
 
   const MyTextField_Search({
     super.key,
     this.controller,
     required this.hintText,
     required this.obscureText,
+    this.autofocus = false,
   });
 
   @override
@@ -19,6 +21,7 @@ class MyTextField_Search extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscureText,
+        autofocus: autofocus,
         decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.white),

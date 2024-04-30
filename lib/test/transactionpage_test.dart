@@ -482,8 +482,8 @@ class _MyTransactionPageCategorizedTestState
                                         TextSpan(
                                           children: <TextSpan>[
                                             TextSpan(
-                                              text: transaction
-                                                  .accesoriesItemName,
+                                              text:
+                                                  't${transaction.accesoriesItemName} # ${transaction.accesoriesItemNumber}',
                                             ),
                                             const TextSpan(
                                               text: ' borrowed by ',
