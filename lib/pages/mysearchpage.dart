@@ -9,14 +9,14 @@ import 'package:app/pages/transactions/transaction_categorized.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MyWardrobePage extends StatefulWidget {
-  const MyWardrobePage({super.key});
+class MySearchAllItemsPage extends StatefulWidget {
+  const MySearchAllItemsPage({super.key});
 
   @override
-  State<MyWardrobePage> createState() => _MyWardrobePageState();
+  State<MySearchAllItemsPage> createState() => _MySearchAllItemsPageState();
 }
 
-class _MyWardrobePageState extends State<MyWardrobePage>
+class _MySearchAllItemsPageState extends State<MySearchAllItemsPage>
     with SingleTickerProviderStateMixin {
   //Tab Controller
   late TabController _tabController;

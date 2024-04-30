@@ -7,6 +7,8 @@ import 'package:app/models/kstransactions/ks_transaction_instrument.dart';
 import 'package:app/models/kstransactions/kstransaction_accesories.dart';
 import 'package:app/models/kstransactions/kstransaction_book.dart';
 import 'package:app/models/kstransactions/kstransaction_wardrobe.dart';
+import 'package:app/pages/homepage.dart';
+import 'package:app/pages/homepage_navbar.dart';
 import 'package:app/pages/login/authentication.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/theme/themeprovider.dart';

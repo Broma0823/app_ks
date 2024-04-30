@@ -1,4 +1,7 @@
 import 'package:app/components/buttons/gridview_button_homepage.dart';
+import 'package:app/components/textfields/my_search_all_items.dart';
+import 'package:app/components/textfields/my_search_textfield.dart';
+import 'package:app/pages/mysearchpage.dart';
 import 'package:app/test/databaseservice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final db = DatabaseService();
+  final SearchController = TextEditingController();
 
   String formatDate(DateTime date) {
     final DateFormat formatter = DateFormat('MMMM dd, yyyy hh:mm a');
@@ -25,6 +29,14 @@ class _HomePageState extends State<HomePage>
   void signUserOut() {
     FirebaseAuth.instance.signOut();
   }
+
+  void _onTapSearchField(
+      BuildContext context, TextEditingController searchController) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MySearchAllItemsPage()));
+  }
+  //SEARCH ALGO
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -82,68 +94,19 @@ class _HomePageState extends State<HomePage>
               'CHOOSE A CATEGORY',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-
+            MyTextField_SearchAll(
+              hintText: 'Search...',
+              obscureText: false,
+              controller: SearchController,
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => MySearchAllItemsPage()))),
+            ),
             const SizedBox(
               height: 20,
             ),
             Expanded(child: MyHomePageButtons()),
-
-            // //button1 (WARDROBE)
-            // const SizedBox(
-            //   height: 16,
-            // ),
-            // MyButton1(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => const MyWardrobePage(),
-            //         ),
-            //       );
-            //     },
-            //     buttonText: 'WARDROBE'),
-            // //button 2 (INSTRUMENTS)
-            // const SizedBox(
-            //   height: 16,
-            // ),
-            // MyButton1(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => const MyInstrumentPage(),
-            //         ),
-            //       );
-            //     },
-            //     buttonText: 'INSTRUMENTS'),
-
-            // //button 3 (ACCESORIES)
-            // const SizedBox(
-            //   height: 16,
-            // ),
-            // MyButton1(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => const MyAccesoriesPage(),
-            //         ),
-            //       );
-            //     },
-            //     buttonText: 'ACCESORIES'),
-            // const SizedBox(
-            //   height: 16,
-            // ),
-            // MyButton1(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => const MyBookPage(),
-            //         ),
-            //       );
-            //     },
-            //     buttonText: 'LIBRARY'),
           ],
         ),
       ),
