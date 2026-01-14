@@ -9,7 +9,7 @@ KoroKatalog streamlines the lending process by tracking these datas.
 
 - The Timeline: Date Borrowed: Establishes a historical record of when the item left your possession. Due Date: Sets a clear expectation for when the item should be returned, helping to prevent "permanent borrowing."
 
-## Technologies Used
+# Technologies Used
 
 - Flutter
 - Firebase
