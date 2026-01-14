@@ -1,5 +1,5 @@
 # KoroKatalog
-
+Simple tracking assisstant for the things you share.
 # Functionality
 KoroKatalog streamlines the lending process by tracking these datas.
 
