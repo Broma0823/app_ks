@@ -11,6 +11,6 @@ KoroKatalog streamlines the lending process by tracking these datas.
 
 ## Technologies Used
 
-Flutter
-Firebase
+- Flutter
+- Firebase
 
