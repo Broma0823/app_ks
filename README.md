@@ -1,6 +1,6 @@
 # KoroKatalog
 
-Functionality
+# Functionality
 KoroKatalog streamlines the lending process by tracking these datas.
 
 - The Asset: What is being borrowed? (e.g., shirt, instrument, or accessories).
